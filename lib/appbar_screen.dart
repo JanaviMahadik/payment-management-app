@@ -11,6 +11,7 @@ class AppbarScreen extends StatefulWidget {
 class _AppbarScreenState extends State<AppbarScreen> implements AppbarView {
   late AppbarPresenter _presenter;
   late User _user;
+  double _balance = 1234.56;
 
   @override
   void initState() {
@@ -65,6 +66,37 @@ class _AppbarScreenState extends State<AppbarScreen> implements AppbarView {
                     ],
                   ),
                 ],
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: EdgeInsets.all(16.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.blue[100],
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                padding: EdgeInsets.all(16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Balance',
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      '\$${_balance.toStringAsFixed(2)}',
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
