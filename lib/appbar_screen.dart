@@ -100,6 +100,36 @@ class _AppbarScreenState extends State<AppbarScreen> implements AppbarView {
               ),
             ),
           ),
+          SliverToBoxAdapter(
+            child: Container(
+              height: 100.0, // Adjust the height as needed
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: 20, // Number of circles
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        CircleAvatar(
+                          backgroundImage: NetworkImage('https://th.bing.com/th?id=OIP.Cyh8Uho74DcMA4MTnMUjbAHaLC&w=204&h=305&c=8&rs=1&qlt=90&o=6&dpr=1.3&pid=3.1&rm=2'),
+                          radius: 30.0,
+                        ),
+                        SizedBox(height: 4.0),
+                        Text(
+                          'User Name',
+                          style: TextStyle(
+                            fontSize: 12.0,
+                            color: Colors.grey[600],
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
         ],
       ),
     );
