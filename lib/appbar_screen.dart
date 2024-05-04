@@ -15,6 +15,15 @@ class _AppbarScreenState extends State<AppbarScreen> implements AppbarView {
   late User _user;
   double _balance = 1234.56;
   int _currentIndex = 0;
+  List<Map<String, dynamic>> _transactions = [
+    {'item': 'Groceries', 'amount': 50.25},
+    {'item': 'Dining', 'amount': 32.75},
+    {'item': 'Utilities', 'amount': 75.00},
+    {'item': 'Entertainment', 'amount': 20.50},
+    {'item': 'Clothing', 'amount': 80.00},
+    {'item': 'College', 'amount': 80.00},
+    {'item': 'travelling', 'amount': 80.00},
+  ];
 
   @override
   void initState() {
@@ -36,7 +45,8 @@ class _AppbarScreenState extends State<AppbarScreen> implements AppbarView {
       body: IndexedStack(
         index: _currentIndex,
         children: [
-          CustomScrollView(
+          Expanded(
+          child:CustomScrollView(
             slivers: [
               SliverAppBar(
                 pinned: true,
@@ -148,7 +158,20 @@ class _AppbarScreenState extends State<AppbarScreen> implements AppbarView {
                   ),
                 ),
               ),
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                    return ListTile(
+                      title: Text(_transactions[index]['item']),
+                      trailing: Text('\$${_transactions[index]['amount'].toStringAsFixed(2)}'),
+                    );
+                  },
+                  childCount: _transactions.length,
+                ),
+              ),
             ],
+          ),
+
           ),
           Scaffold(
             body: Center(
