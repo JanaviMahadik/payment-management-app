@@ -74,7 +74,7 @@ class _AppbarScreenState extends State<AppbarScreen> implements AppbarView {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        _user.name ?? 'Fallback Value',
+                        _user.name,
                         style: TextStyle(
                           color: Colors.grey[600],
                           fontSize: 18.0,
@@ -83,7 +83,7 @@ class _AppbarScreenState extends State<AppbarScreen> implements AppbarView {
                       ),
                       SizedBox(height: 4.0),
                       Text(
-                        _user.description ?? '',
+                        _user.description,
                         style: TextStyle(
                           fontSize: 14.0,
                           color: Colors.grey[600],
