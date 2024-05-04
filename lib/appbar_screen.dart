@@ -1,4 +1,3 @@
-//appbar_screen.dart
 import 'package:flutter/material.dart';
 import 'package:payment_management_app/user.dart';
 import 'appbar_presenter.dart';
@@ -24,12 +23,27 @@ class _AppbarScreenState extends State<AppbarScreen> implements AppbarView {
     {'item': 'College', 'amount': 80.00},
     {'item': 'travelling', 'amount': 80.00},
   ];
+  List<Map<String, dynamic>> _filteredTransactions = [];
+
+  TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     _presenter = AppbarPresenterImpl(this);
     _presenter.loadUserData();
+    _filteredTransactions = _transactions;
+    _searchController.addListener(_onSearchChanged);
+  }
+
+  void _onSearchChanged() {
+    String searchText = _searchController.text.toLowerCase();
+    setState(() {
+      _filteredTransactions = _transactions.where((transaction) {
+        String item = transaction['item'].toLowerCase();
+        return item.contains(searchText);
+      }).toList();
+    });
   }
 
   @override
@@ -42,150 +56,143 @@ class _AppbarScreenState extends State<AppbarScreen> implements AppbarView {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(
-        index: _currentIndex,
-        children: [
-          Expanded(
-          child:CustomScrollView(
-            slivers: [
-              SliverAppBar(
-                pinned: true,
-                expandedHeight: 200.0,
-                flexibleSpace: FlexibleSpaceBar(
-                  title: Row(
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            pinned: true,
+            expandedHeight: 200.0,
+            flexibleSpace: FlexibleSpaceBar(
+              title: Row(
+                children: [
+                  CircleAvatar(
+                    backgroundImage: NetworkImage(_user.photoUrl),
+                    radius: 30.0,
+                  ),
+                  SizedBox(width: 16.0),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      CircleAvatar(
-                        backgroundImage: NetworkImage(_user.photoUrl),
-                        radius: 30.0,
+                      Text(
+                        _user.name ?? 'Fallback Value',
+                        style: TextStyle(
+                          color: Colors.grey[600],
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                      SizedBox(width: 16.0),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            _user.name,
-                            style: TextStyle(
-                              color: Colors.grey[600],
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(height: 4.0),
-                          Text(
-                            _user.description,
-                            style: TextStyle(
-                              fontSize: 14.0,
-                              color: Colors.grey[600],
-                            ),
-                          ),
-                        ],
+                      SizedBox(height: 4.0),
+                      Text(
+                        _user.description ?? '',
+                        style: TextStyle(
+                          fontSize: 14.0,
+                          color: Colors.grey[600],
+                        ),
                       ),
                     ],
                   ),
-                ),
+                ],
               ),
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.blue[100],
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                    padding: EdgeInsets.all(16.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Balance',
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          '\$${_balance.toStringAsFixed(2)}',
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8.0),
-                  child: Text(
-                    'Send Again',
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ),
-              SliverToBoxAdapter(
-                child: Container(
-                  height: 100.0, // Adjust the height as needed
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: 20, // Number of circles
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Column(
-                          children: [
-                            CircleAvatar(
-                              backgroundImage: NetworkImage('https://th.bing.com/th/id/OIP.E95e-X6l6dr3sXlS2Gc7lwHaHa?w=201&h=200&c=7&r=0&o=5&dpr=1.3&pid=1.7'),
-                            ),
-                            SizedBox(height: 4.0),
-                            Text(
-                              'User Name',
-                              style: TextStyle(
-                                fontSize: 12.0,
-                                color: Colors.grey[600],
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ),
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                    return ListTile(
-                      title: Text(_transactions[index]['item']),
-                      trailing: Text('\$${_transactions[index]['amount'].toStringAsFixed(2)}'),
-                    );
-                  },
-                  childCount: _transactions.length,
-                ),
+            ),
+            actions: [
+              IconButton(
+                icon: Icon(Icons.search),
+                onPressed: () {
+                  showSearch(
+                    context: context,
+                    delegate: _CustomSearchDelegate(_transactions),
+                  );
+                },
               ),
             ],
           ),
 
-          ),
-          Scaffold(
-            body: Center(
-              child: Text('Scan Receipt'),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: EdgeInsets.all(16.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.blue[100],
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                padding: EdgeInsets.all(16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Balance',
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      '\$${_balance.toStringAsFixed(2)}',
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ),
-          Scaffold(
-            body: Center(
-              child: Text('Send'),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 8.0),
+              child: Text(
+                'Send Again',
+                style: TextStyle(
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
+              ),
             ),
           ),
-          Scaffold(
-            body: Center(
-              child: Text('Settings'),
+          SliverToBoxAdapter(
+            child: Container(
+              height: 100.0, // Adjust the height as needed
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: 20, // Number of circles
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        CircleAvatar(
+                          backgroundImage: NetworkImage(
+                            'https://th.bing.com/th/id/OIP.E95e-X6l6dr3sXlS2Gc7lwHaHa?w=201&h=200&c=7&r=0&o=5&dpr=1.3&pid=1.7',
+                          ),
+                        ),
+                        SizedBox(height: 4.0),
+                        Text(
+                          'User Name',
+                          style: TextStyle(
+                            fontSize: 12.0,
+                            color: Colors.grey[600],
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+                  (context, index) {
+                return ListTile(
+                  title: Text(_filteredTransactions[index]['item']),
+                  trailing: Text(
+                    '\$${_filteredTransactions[index]['amount'].toStringAsFixed(2)}',
+                  ),
+                );
+              },
+              childCount: _filteredTransactions.length,
             ),
           ),
         ],
@@ -232,6 +239,70 @@ class _AppbarScreenState extends State<AppbarScreen> implements AppbarView {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _CustomSearchDelegate extends SearchDelegate {
+  final List<Map<String, dynamic>> transactions;
+
+  _CustomSearchDelegate(this.transactions);
+
+  @override
+  List<Widget> buildActions(BuildContext context) {
+    return [
+      IconButton(
+        icon: Icon(Icons.clear),
+        onPressed: () {
+          query = '';
+        },
+      ),
+    ];
+  }
+
+  @override
+  Widget buildLeading(BuildContext context) {
+    return IconButton(
+      icon: Icon(Icons.arrow_back),
+      onPressed: () {
+        close(context, null);
+      },
+    );
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    final List<Map<String, dynamic>> results = transactions.where((transaction) {
+      String item = transaction['item'].toLowerCase();
+      return item.contains(query.toLowerCase());
+    }).toList();
+
+    return ListView.builder(
+      itemCount: results.length,
+      itemBuilder: (context, index) {
+        return ListTile(
+          title: Text(results[index]['item']),
+          subtitle: Text('\$${results[index]['amount'].toStringAsFixed(2)}'),
+        );
+      },
+    );
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    final List<Map<String, dynamic>> results = transactions.where((transaction) {
+      String item = transaction['item'].toLowerCase();
+      return item.contains(query.toLowerCase());
+    }).toList();
+
+    return ListView.builder(
+      itemCount: results.length,
+      itemBuilder: (context, index) {
+        return ListTile(
+          title: Text(results[index]['item']),
+          subtitle: Text('\$${results[index]['amount'].toStringAsFixed(2)}'),
+        );
+      },
     );
   }
 }
