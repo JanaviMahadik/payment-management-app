@@ -400,19 +400,55 @@ class UserProfilePage extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 20.0),
-                ListTile(
-                  title: Text('Tab 1'),
-                  onTap: () {
-                    // Handle tap for Tab 1
-                  },
+                Container(
+                  height: 60.0, // Adjust the height as needed
+                  child: ListTile(
+                    leading: Icon(Icons.person),
+                    title: Text('Personal Info'),
+                  ),
                 ),
-                ListTile(
-                  title: Text('Tab 2'),
-                  onTap: () {
-                    // Handle tap for Tab 2
-                  },
+                Container(
+                  height: 60.0, // Adjust the height as needed
+                  child: ListTile(
+                    leading: Icon(Icons.qr_code),
+                    title: Text('My QR Code'),
+                  ),
                 ),
-                // Add more ListTiles for additional tabs
+                Container(
+                  height: 60.0, // Adjust the height as needed
+                  child: ListTile(
+                    leading: Icon(Icons.credit_card),
+                    title: Text('Banks and Cards'),
+                  ),
+                ),
+                Container(
+                  height: 60.0, // Adjust the height as needed
+                  child: ListTile(
+                    leading: Icon(Icons.account_balance_wallet),
+                    title: Text('Payment Preferences'),
+                  ),
+                ),
+                Container(
+                  height: 60.0, // Adjust the height as needed
+                  child: ListTile(
+                    leading: Icon(Icons.account_balance),
+                    title: Text('Accounts Payment'),
+                  ),
+                ),
+                Container(
+                  height: 60.0, // Adjust the height as needed
+                  child: ListTile(
+                    leading: Icon(Icons.security),
+                    title: Text('Login and Security'),
+                  ),
+                ),
+                Container(
+                  height: 60.0, // Adjust the height as needed
+                  child: ListTile(
+                    leading: Icon(Icons.notifications),
+                    title: Text('Notifications'),
+                  ),
+                ),
               ],
             ),
           ),
