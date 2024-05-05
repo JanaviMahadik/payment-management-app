@@ -169,48 +169,42 @@ class _AppbarScreenState extends State<AppbarScreen> implements AppbarView {
             ),
           ),
           SliverToBoxAdapter(
-            child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 8.0),
-              child: Text(
-                'Send Again',
-                style: TextStyle(
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.bold,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),
-          ),
-          SliverToBoxAdapter(
             child: Container(
               height: 100.0, // Adjust the height as needed
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: _userImages.length, // Number of user images
                 itemBuilder: (context, index) {
-                  return Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        CircleAvatar(
-                          backgroundImage: NetworkImage(_userImages[index]),
-                        ),
-                        SizedBox(height: 4.0),
-                        Text(
-                          'User ${index + 1}', // Change to user specific information if available
-                          style: TextStyle(
-                            fontSize: 12.0,
-                            color: Colors.grey[600],
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => MoneySentScreen(imageUrl: _userImages[index])),
+                      );
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          CircleAvatar(
+                            backgroundImage: NetworkImage(_userImages[index]),
                           ),
-                        ),
-                      ],
+                          SizedBox(height: 4.0),
+                          Text(
+                            'User ${index + 1}', // Change to user specific information if available
+                            style: TextStyle(
+                              fontSize: 12.0,
+                              color: Colors.grey[600],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 },
               ),
             ),
           ),
-
           SliverList(
             delegate: SliverChildBuilderDelegate(
                   (context, index) {
@@ -427,6 +421,40 @@ class UserProfilePage extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class MoneySentScreen extends StatelessWidget {
+  final String imageUrl;
+
+  MoneySentScreen({required this.imageUrl});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Money Sent'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CircleAvatar(
+              backgroundImage: NetworkImage(imageUrl),
+              radius: 50.0,
+            ),
+            SizedBox(height: 20.0),
+            Text(
+              'Money Sent',
+              style: TextStyle(
+                fontSize: 24.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
