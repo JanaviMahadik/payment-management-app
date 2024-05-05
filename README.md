@@ -20,6 +20,6 @@ payment confirmation page
   - the money sent confirmation page
   - it displays the photo of the user to whom the money was sent with a money sent text message
 
-    
-![page 1](https://github.com/JanaviMahadik/payment-management-app/assets/157902522/0ab4a92d-e5ff-43c7-851c-89d1485d0982)   
-![image](https://github.com/JanaviMahadik/payment-management-app/assets/157902522/4f81a776-0e60-494b-a526-0633a999b290)
+![image](https://github.com/JanaviMahadik/payment-management-app/assets/157902522/451cdc93-ccdc-4f6f-9e0d-95691c1c3cb3)
+![image](https://github.com/JanaviMahadik/payment-management-app/assets/157902522/54420d2e-dda9-48d4-8a3c-c436323ef5d5)
+![image](https://github.com/JanaviMahadik/payment-management-app/assets/157902522/468baa42-393c-46b3-ad7b-6c85331f7d0e)
