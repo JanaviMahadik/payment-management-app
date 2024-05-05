@@ -16,5 +16,4 @@ page 2 on the app
 - below which i have various tabs for different purposes
 
   
-![page 1](https://github.com/JanaviMahadik/payment-management-app/assets/157902522/0ab4a92d-e5ff-43c7-851c-89d1485d0982)
-![image](https://github.com/JanaviMahadik/payment-management-app/assets/157902522/4f81a776-0e60-494b-a526-0633a999b290)
+![page 1](https://github.com/JanaviMahadik/payment-management-app/assets/157902522/0ab4a92d-e5ff-43c7-851c-89d1485d0982)   ![image](https://github.com/JanaviMahadik/payment-management-app/assets/157902522/4f81a776-0e60-494b-a526-0633a999b290)
