@@ -24,8 +24,25 @@ class _AppbarScreenState extends State<AppbarScreen> implements AppbarView {
     {'item': 'College', 'amount': 80.00},
     {'item': 'travelling', 'amount': 80.00},
   ];
-  List<Map<String, dynamic>> _filteredTransactions = [];
 
+  List<String> _userImages = [
+    'https://th.bing.com/th?id=OIP.g1m0K7yumfwkc_ub224a4AHaE7&w=306&h=203&c=8&rs=1&qlt=90&o=6&dpr=1.3&pid=3.1&rm=2',
+    'https://th.bing.com/th?id=OIP.IJKEfyGfsngEzegazo0L2wHaGm&w=264&h=236&c=8&rs=1&qlt=90&o=6&dpr=1.3&pid=3.1&rm=2',
+    'https://th.bing.com/th?id=OIP.Cyh8Uho74DcMA4MTnMUjbAHaLC&w=204&h=305&c=8&rs=1&qlt=90&o=6&dpr=1.3&pid=3.1&rm=2',
+    'https://th.bing.com/th?id=OIP.mT0xDqqWpCcm8my_uYkMUwHaLG&w=204&h=306&c=8&rs=1&qlt=90&o=6&dpr=1.3&pid=3.1&rm=2',
+    'https://th.bing.com/th?id=OIP.Sx4DawgrM3gPDgHxtGIKQAHaFA&w=304&h=205&c=8&rs=1&qlt=90&o=6&dpr=1.3&pid=3.1&rm=2',
+    'https://th.bing.com/th?id=OIP.QexcnKLol8SaCraOMz2o6AHaFo&w=286&h=217&c=8&rs=1&qlt=90&o=6&dpr=1.3&pid=3.1&rm=2',
+    'https://th.bing.com/th?id=OSK.HEROkQRuJ1powxZKx_jC17o5J2XaSDLZSe4V18ev3ojsKPo&w=472&h=280&c=13&rs=2&o=6&oif=webp&dpr=1.3&pid=SANGAM',
+    'https://th.bing.com/th?id=OSK.mmcolmV6Cz2e80qVyhsO0z81Nyep0lKtMpStCnUNAA4qxnrc&w=130&h=100&c=8&o=6&dpr=1.3&pid=SANGAM',
+    'https://th.bing.com/th?id=OSK.mmcol1gZP2Vo0l0jyugVKL07YCbP8G_EHtnO1skZksAV5mYU&w=130&h=100&c=8&o=6&dpr=1.3&pid=SANGAM',
+    'https://th.bing.com/th/id/OIP.Gh8QtnFEh8LOj1a6-Q88FQHaFj?w=236&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7',
+    'https://th.bing.com/th?q=Cat+Book&w=120&h=120&c=1&rs=1&qlt=90&cb=1&dpr=1.3&pid=InlineBlock&mkt=en-IN&cc=IN&setlang=en&adlt=strict&t=1&mw=247',
+    'https://th.bing.com/th?q=Flying+Cat&w=120&h=120&c=1&rs=1&qlt=90&cb=1&dpr=1.3&pid=InlineBlock&mkt=en-IN&cc=IN&setlang=en&adlt=strict&t=1&mw=247',
+    'https://th.bing.com/th?q=Cat+Play&w=120&h=120&c=1&rs=1&qlt=90&cb=1&dpr=1.3&pid=InlineBlock&mkt=en-IN&cc=IN&setlang=en&adlt=strict&t=1&mw=247',
+    'https://th.bing.com/th?q=Winter+Cat&w=120&h=120&c=1&rs=1&qlt=90&cb=1&dpr=1.3&pid=InlineBlock&mkt=en-IN&cc=IN&setlang=en&adlt=strict&t=1&mw=247',
+  ];
+
+  List<Map<String, dynamic>> _filteredTransactions = [];
   TextEditingController _searchController = TextEditingController();
 
   @override
@@ -169,20 +186,18 @@ class _AppbarScreenState extends State<AppbarScreen> implements AppbarView {
               height: 100.0, // Adjust the height as needed
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: 20, // Number of circles
+                itemCount: _userImages.length, // Number of user images
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Column(
                       children: [
                         CircleAvatar(
-                          backgroundImage: NetworkImage(
-                            'https://th.bing.com/th/id/OIP.E95e-X6l6dr3sXlS2Gc7lwHaHa?w=201&h=200&c=7&r=0&o=5&dpr=1.3&pid=1.7',
-                          ),
+                          backgroundImage: NetworkImage(_userImages[index]),
                         ),
                         SizedBox(height: 4.0),
                         Text(
-                          'User Name',
+                          'User ${index + 1}', // Change to user specific information if available
                           style: TextStyle(
                             fontSize: 12.0,
                             color: Colors.grey[600],
@@ -195,6 +210,7 @@ class _AppbarScreenState extends State<AppbarScreen> implements AppbarView {
               ),
             ),
           ),
+
           SliverList(
             delegate: SliverChildBuilderDelegate(
                   (context, index) {
@@ -210,48 +226,6 @@ class _AppbarScreenState extends State<AppbarScreen> implements AppbarView {
           ),
         ],
       ),
-      /*drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            UserAccountsDrawerHeader(
-              accountName: Text(
-                _user.name,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              accountEmail: Text(
-                _user.description,
-                style: TextStyle(
-                  color: Colors.grey,
-                ),
-              ),
-              currentAccountPicture: CircleAvatar(
-                backgroundImage: NetworkImage(_user.photoUrl),
-              ),
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              ),
-            ),
-            ListTile(
-              title: Text('Tab 1'),
-              onTap: () {
-                // Handle tap for Tab 1
-              },
-            ),
-            ListTile(
-              title: Text('Tab 2'),
-              onTap: () {
-                // Handle tap for Tab 2
-              },
-            ),
-            // Add more ListTile widgets for additional tabs
-          ],
-        ),
-      ),
-      */
-
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: (index) {
