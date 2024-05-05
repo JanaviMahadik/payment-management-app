@@ -1,3 +1,4 @@
+//main.dart
 import 'package:flutter/material.dart';
 import 'appbar_screen.dart';
 
@@ -10,7 +11,7 @@ class YourApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Your App',
+      title: 'Payment Management App',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),

@@ -1,3 +1,4 @@
+//appbar_screen.dart
 import 'package:flutter/material.dart';
 import 'package:payment_management_app/user.dart';
 import 'appbar_presenter.dart';
@@ -64,10 +65,21 @@ class _AppbarScreenState extends State<AppbarScreen> implements AppbarView {
             flexibleSpace: FlexibleSpaceBar(
               title: Row(
                 children: [
-                  CircleAvatar(
+                Tooltip(
+                message: 'View Profile',
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => UserProfilePage(user: _user)),
+                    );
+                  },
+                  child: CircleAvatar(
                     backgroundImage: NetworkImage(_user.photoUrl),
                     radius: 30.0,
                   ),
+                ),
+              ),
                   SizedBox(width: 16.0),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -97,6 +109,7 @@ class _AppbarScreenState extends State<AppbarScreen> implements AppbarView {
             actions: [
               IconButton(
                 icon: Icon(Icons.search),
+                tooltip: "search transaction",
                 onPressed: () {
                   showSearch(
                     context: context,
@@ -197,6 +210,48 @@ class _AppbarScreenState extends State<AppbarScreen> implements AppbarView {
           ),
         ],
       ),
+      /*drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            UserAccountsDrawerHeader(
+              accountName: Text(
+                _user.name,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              accountEmail: Text(
+                _user.description,
+                style: TextStyle(
+                  color: Colors.grey,
+                ),
+              ),
+              currentAccountPicture: CircleAvatar(
+                backgroundImage: NetworkImage(_user.photoUrl),
+              ),
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+            ),
+            ListTile(
+              title: Text('Tab 1'),
+              onTap: () {
+                // Handle tap for Tab 1
+              },
+            ),
+            ListTile(
+              title: Text('Tab 2'),
+              onTap: () {
+                // Handle tap for Tab 2
+              },
+            ),
+            // Add more ListTile widgets for additional tabs
+          ],
+        ),
+      ),
+      */
+
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: (index) {
@@ -303,6 +358,66 @@ class _CustomSearchDelegate extends SearchDelegate {
           subtitle: Text('\$${results[index]['amount'].toStringAsFixed(2)}'),
         );
       },
+    );
+  }
+}
+
+class UserProfilePage extends StatelessWidget {
+  final User user;
+
+  UserProfilePage({required this.user});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('User Profile'),
+      ),
+      body: ListView(
+        children: [
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CircleAvatar(
+                  backgroundImage: NetworkImage(user.photoUrl),
+                  radius: 50.0,
+                ),
+                SizedBox(height: 20.0),
+                Text(
+                  user.name,
+                  style: TextStyle(
+                    fontSize: 24.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 10.0),
+                Text(
+                  user.description,
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    color: Colors.grey[600],
+                  ),
+                ),
+                SizedBox(height: 20.0),
+                ListTile(
+                  title: Text('Tab 1'),
+                  onTap: () {
+                    // Handle tap for Tab 1
+                  },
+                ),
+                ListTile(
+                  title: Text('Tab 2'),
+                  onTap: () {
+                    // Handle tap for Tab 2
+                  },
+                ),
+                // Add more ListTiles for additional tabs
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
